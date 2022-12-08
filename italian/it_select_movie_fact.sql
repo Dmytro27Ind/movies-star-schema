@@ -18,9 +18,9 @@ ORDER BY "movieID" ASC, "personID" ASC);
 DROP VIEW IF EXISTS all_persons CASCADE;
 
 CREATE VIEW all_persons AS (SELECT scenarist."movieID",
-    scenarist."personID" as scenarist_id, scenarist."primaryName" as scenarist_name,
-    director."personID" as director_id, director."primaryName" as director_name,
-    actor."personID" as actor_id, actor."primaryName" as actor_name
+    scenarist."personID" as scenarist_id, scenarist."primaryName" as scenarist_full_name,
+    director."personID" as director_id, director."primaryName" as director_full_name,
+    actor."personID" as actor_id, actor."primaryName" as actor_full_name
 FROM movie_person as scenarist
 INNER JOIN movie_person as director
 ON scenarist."movieID" = director."movieID"
@@ -50,17 +50,17 @@ ORDER BY movies.id ASC);
 
 -- SELECT * FROM movie_fact_data;
 
-DROP VIEW IF EXISTS movie_fact CASCADE;
+DROP TABLE IF EXISTS movie_fact CASCADE;
 
 CREATE TABLE movie_fact AS
-SELECT mfd.time_id, mfd.time_year, mfd.time_month, mfd.time_date,
-    mfd.movie_id, mfd.movie_name, mfd.movie_country,
-    ap.actor_id, ap.actor_name, null as actor_gender, null as actor_year_of_birth,
-    ap.scenarist_id, ap.scenarist_name, null as scenarist_gender, null as scenarist_year_of_birth,
-    ap.director_id, ap.director_name, null as director_gender, null as director_year_of_birth,
-    mfd.genre_id, mfd.genre_name,
+SELECT CAST(mfd.time_id AS DATE), mfd.time_year, mfd.time_month, mfd.time_date,
+    CAST(mfd.movie_id AS INTEGER), CAST(mfd.movie_name AS TEXT), mfd.movie_country,
+    CAST(ap.actor_id AS INTEGER), ap.actor_full_name, CAST(null AS character(1)) as actor_gender, CAST(null AS NUMERIC) as actor_year_of_birth,
+    CAST(ap.scenarist_id AS INTEGER), ap.scenarist_full_name, CAST(null AS character(1)) as scenarist_gender, CAST(null AS NUMERIC) as scenarist_year_of_birth,
+    CAST(ap.director_id AS INTEGER), ap.director_full_name, CAST(null AS character(1)) as director_gender, CAST(null AS NUMERIC) as director_year_of_birth,
+    CAST(mfd.genre_id AS INTEGER), CAST(mfd.genre_name AS TEXT),
     mfd.budget, mfd.number_of_votes, mfd.rating, mfd.duration
 FROM movie_fact_data as mfd
 INNER JOIN all_persons as ap ON ap."movieID" = mfd.movie_id;
 
-SELECT * FROM movie_fact;
+-- SELECT * FROM movie_fact LIMIT 100;
