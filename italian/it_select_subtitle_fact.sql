@@ -1,4 +1,4 @@
--- language_id, code
+-- language_id, language_code
 -- time_id, time_year, time_month, time_date
 -- movie_id, movie_name, movie_country,
 -- genre_id, genre_name,
@@ -69,11 +69,12 @@ ORDER BY movies.id ASC);
 DROP TABLE IF EXISTS subtitles_fact CASCADE;
 
 CREATE TABLE subtitles_fact AS
-SELECT sfd.time_id, sfd.time_year, sfd.time_month, sfd.time_date,
-    sfd.movie_id, sfd.movie_name, sfd.movie_country,
-    ap.scenarist_id, ap.scenarist_name, null as scenarist_gender, null as scenarist_year_of_birth,
-    ap.director_id, ap.director_name, null as director_gender, null as director_year_of_birth,
-    sfd.genre_id, sfd.genre_name,
+SELECT 1 as language_id, 'it' as language_code,
+    CAST(sfd.time_id AS DATE), sfd.time_year, sfd.time_month, sfd.time_date,
+    CAST(sfd.movie_id AS INTEGER), CAST(sfd.movie_name AS TEXT), sfd.movie_country,
+    CAST(ap.scenarist_id AS INTEGER), ap.scenarist_name as scenarist_full_name, CAST(null AS CHARACTER(1)) as scenarist_gender, CAST(null AS NUMERIC) as scenarist_year_of_birth,
+    CAST(ap.director_id AS INTEGER), ap.director_name as director_full_name, CAST(null AS CHARACTER(1)) as director_gender, CAST(null AS NUMERIC) as director_year_of_birth,
+    CAST(sfd.genre_id AS INTEGER), CAST(sfd.genre_name AS TEXT),
     scd.word_count,
     scd.number_of_replicas,
     scd.number_of_characters

@@ -105,6 +105,8 @@ ORDER BY mfd.movie_id ASC
 DROP TABLE IF EXISTS movie_fact_cs;
 
 CREATE TABLE movie_fact_cs AS
-SELECT * FROM movie_fact WHERE movie_id IS NOT NULL;
+SELECT * FROM movie_fact
+WHERE movie_id IS NOT NULL
+    AND movie_id <= 1000;
 
--- SELECT * FROM movie_fact_cs;
+SELECT * FROM movie_fact_cs;
