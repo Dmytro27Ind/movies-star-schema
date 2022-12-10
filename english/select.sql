@@ -106,3 +106,18 @@ FROM all_movies as am
 WHERE am.movie_id <= 4000;
 
 SELECT * FROM movie_fact_en;
+
+DROP TABLE IF EXISTS subtitle_fact_en;
+
+CREATE TABLE subtitle_fact_en AS
+SELECT 
+    3 as language_id, 'en' as language_code,
+    CAST(time_id AS DATE), time_year, CAST(time_month AS NUMERIC), CAST(time_date AS NUMERIC),
+    CAST(movie_id AS INTEGER), movie_name, movie_country, 
+    scenarist_id, scenarist_name as scenarist_full_name, scenarist_gender, CAST(scenarist_year_of_birth AS NUMERIC),
+    director_id, director_name as director_full_name, director_gender, CAST(director_year_of_birth AS NUMERIC),
+    genre_id, genre_name,
+    CAST(word_count as BIGINT), number_of_replicas , number_of_characters
+FROM all_subtitles
+WHERE movie_id <= 4000
+ORDER BY movie_id;

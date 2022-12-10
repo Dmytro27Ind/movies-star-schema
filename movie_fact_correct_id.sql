@@ -4,7 +4,7 @@
 -- SELECT * FROM movie_fact_un;
 
 ----------------------------------------------------------------------------------------
-------                    DISTINCT SCENARIST WITH CORRECT ID                    --------
+------                     DISTINCT DIRECTOR WITH CORRECT ID                    --------
 ----------------------------------------------------------------------------------------
 
 -- DROP VIEW IF EXISTS distinct_director CASCADE;
@@ -229,6 +229,7 @@
 -- ALTER TABLE movie_fact_union 
 -- ADD COLUMN time_id INTEGER;
 
+-- DROP TABLE IF EXISTS movie_fact_union_old;
 -- ALTER TABLE movie_fact_union RENAME TO movie_fact_union_old;
 
 -- CREATE TABLE movie_fact_union AS (
@@ -242,10 +243,12 @@
 -- FROM movie_fact_union_old
 -- ORDER BY movie_id);
 
--- UPDATE movie_fact_union AS mfu
--- SET time_id = tci.time_id
--- FROM time_correct_id AS tci
--- WHERE mfu.time_year = tci.time_year AND mfu.time_month = tci.time_month AND mfu.time_date = tci.time_date;
+UPDATE movie_fact_union AS mfu
+SET time_id = tci.time_id
+FROM time_correct_id AS tci
+WHERE (mfu.time_year = tci.time_year OR (mfu.time_year IS NULL AND tci.time_year IS NULL))
+    AND (mfu.time_month = tci.time_month OR (mfu.time_month IS NULL AND tci.time_month IS NULL))
+    AND (mfu.time_date = tci.time_date OR (mfu.time_date IS NULL AND tci.time_date IS NULL));
 
 ------------------------------------------------------------------------------------------
 --------                        MOVIE FACT WITH CORRECT SCENARIST ID             --------
