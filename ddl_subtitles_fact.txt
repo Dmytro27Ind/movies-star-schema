@@ -1,0 +1,22 @@
+    language_id             integer,
+    language_code           text,    
+    time_id                 date,
+    time_year               numeric,
+    time_month              numeric,
+    time_date               numeric,
+    movie_id                integer,
+    movie_name              text,
+    movie_country           text,
+    scenarist_id            integer,
+    scenarist_full_name     text,
+    scenarist_gender        char,		-- M or F
+    scenarist_year_of_birth numeric,
+    director_id             integer,
+    director_full_name      text,
+    director_gender         char,		-- M or F
+    director_year_of_birth  numeric,
+    genre_id                integer,
+    genre_name              text,
+    word_count              bigint,
+    number_of_replicas      bigint,
+    number_of_characters    bigint
